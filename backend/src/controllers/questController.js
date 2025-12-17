@@ -1,5 +1,7 @@
 const pool = require('../config/db');
 const { processLevelUp, calculateQuestXp } = require('../services/xpService');
+const statisticsController = require('./statisticsController');
+const leaderboardController = require('./leaderboardController');
 
 // Get player's quests
 exports.getQuests = async (req, res) => {
@@ -42,9 +44,9 @@ exports.createQuest = async (req, res) => {
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `, [req.player.id, name, description, questType, difficulty || 'easy', xpReward, goldReward, targetCount || 1, statType]);
 
-    res.status(201).json({ 
+    res.status(201).json({
       message: 'Quest created',
-      questId: result.insertId 
+      questId: result.insertId
     });
   } catch (error) {
     console.error('Create quest error:', error);
@@ -143,6 +145,23 @@ exports.completeQuest = async (req, res) => {
       'INSERT INTO activity_log (player_id, action_type, xp_gained, gold_gained, details) VALUES (?, ?, ?, ?, ?)',
       [req.player.id, 'quest_complete', quest.xp_reward, quest.gold_reward, JSON.stringify({ questName: quest.custom_name })]
     );
+
+    // Sync Statistics
+    try {
+      await statisticsController.updateStatistics(req.player.id, {
+        total_quests_completed: 1,
+        total_xp_earned: quest.xp_reward
+      });
+    } catch (statError) {
+      console.error('Failed to update stats:', statError);
+    }
+
+    // Sync Leaderboard
+    try {
+      await leaderboardController.updateSinglePlayerCache(req.player.id);
+    } catch (lbError) {
+      console.error('Failed to update leaderboard cache:', lbError);
+    }
 
     res.json({
       message: 'Quest completed!',

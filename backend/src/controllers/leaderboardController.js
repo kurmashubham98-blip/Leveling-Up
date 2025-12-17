@@ -10,7 +10,18 @@ exports.getGlobalLeaderboard = async (req, res) => {
         const [countResult] = await db.query(
             `SELECT COUNT(*) as total FROM leaderboard_cache`
         );
-        const totalPlayers = countResult[0].total;
+        let totalPlayers = countResult[0].total;
+
+        // Self-healing: If cache is empty, populate it
+        if (totalPlayers === 0) {
+            console.log('Leaderboard cache empty, populating...');
+            await exports.updateLeaderboardCache();
+
+            const [newCount] = await db.query(
+                `SELECT COUNT(*) as total FROM leaderboard_cache`
+            );
+            totalPlayers = newCount[0].total;
+        }
 
         // Get leaderboard page
         const [leaderboard] = await db.query(
