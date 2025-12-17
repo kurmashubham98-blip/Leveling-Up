@@ -52,7 +52,7 @@ export default function ChallengesPage() {
     const handleJoinChallenge = async (id: number) => {
         try {
             await challengesApi.join(id);
-            await fetchChallenges(); // Refresh lists
+            await fetchChallenges();
         } catch (error: any) {
             console.error('Failed to join challenge:', error);
             alert(error.message || 'Failed to join challenge');
@@ -111,7 +111,7 @@ export default function ChallengesPage() {
                     <button className={styles.navLink} onClick={() => router.push('/statistics')}>Statistics</button>
                     <button className={styles.navLink} onClick={() => router.push('/challenges')}>Challenges</button>
                     <button className={styles.navLink} onClick={() => router.push('/leaderboard')}>Leaderboard</button>
-                    <button className={styles.navLink} onClick(() => router.push('/compare')}>Compare</button>
+                    <button className={styles.navLink} onClick={() => router.push('/compare')}>Compare</button>
                 </nav>
             </header>
 
@@ -168,39 +168,37 @@ export default function ChallengesPage() {
                 )}
             </main>
 
-            {
-        showLeaderboard && (
-            <div className={styles.modalOverlay} onClick={() => setShowLeaderboard(false)}>
-                <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-                    <h3 className={styles.modalTitle}>Leaderboard</h3>
-                    <div className={styles.leaderboardList}>
-                        {leaderboard.length > 0 ? (
-                            leaderboard.map((entry, index) => (
-                                <div key={entry.player_id} className={styles.leaderboardItem}>
-                                    <span className={styles.rank}>#{entry.position}</span>
-                                    <div className={styles.playerInfo}>
-                                        <span className={styles.username}>{entry.username}</span>
-                                        <span className={styles.level}>Lv. {entry.level}</span>
+            {showLeaderboard && (
+                <div className={styles.modalOverlay} onClick={() => setShowLeaderboard(false)}>
+                    <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+                        <h3 className={styles.modalTitle}>Leaderboard</h3>
+                        <div className={styles.leaderboardList}>
+                            {leaderboard.length > 0 ? (
+                                leaderboard.map((entry, index) => (
+                                    <div key={entry.player_id} className={styles.leaderboardItem}>
+                                        <span className={styles.rank}>#{entry.position}</span>
+                                        <div className={styles.playerInfo}>
+                                            <span className={styles.username}>{entry.username}</span>
+                                            <span className={styles.level}>Lv. {entry.level}</span>
+                                        </div>
+                                        <div className={styles.progress}>
+                                            {entry.current_progress} / {entry.target_count}
+                                        </div>
+                                        {entry.status === 'completed' && (
+                                            <span className={styles.completed}>✅</span>
+                                        )}
                                     </div>
-                                    <div className={styles.progress}>
-                                        {entry.current_progress} / {entry.target_count}
-                                    </div>
-                                    {entry.status === 'completed' && (
-                                        <span className={styles.completed}>✅</span>
-                                    )}
-                                </div>
-                            ))
-                        ) : (
-                            <p className={styles.emptyText}>No leaderboard data</p>
-                        )}
+                                ))
+                            ) : (
+                                <p className={styles.emptyText}>No leaderboard data</p>
+                            )}
+                        </div>
+                        <button className="btn btn-secondary" onClick={() => setShowLeaderboard(false)}>
+                            Close
+                        </button>
                     </div>
-                    <button className="btn btn-secondary" onClick={() => setShowLeaderboard(false)}>
-                        Close
-                    </button>
                 </div>
-            </div>
-        )
-    }
-        </div >
+            )}
+        </div>
     );
 }
