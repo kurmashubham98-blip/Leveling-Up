@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://leveling-up.vercel.app', /\.vercel\.app$/],
+  origin: ['http://localhost:3000', 'https://leveling-nine.vercel.app', /\.vercel\.app$/],
   credentials: true
 }));
 app.use(express.json());
