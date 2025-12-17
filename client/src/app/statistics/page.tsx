@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { statistics as statsApi } from '@/lib/api';
 import dynamic from 'next/dynamic';
+import { useWebSocket } from '@/lib/useWebSocket';
 import StatCard from '@/components/StatCard';
 import Heatmap from '@/components/Heatmap';
 import styles from './statistics.module.css';
@@ -58,6 +59,26 @@ export default function StatisticsPage() {
             setLoading(false);
         }
     };
+
+    // Real-time updates
+    const socket = useWebSocket();
+
+    useEffect(() => {
+        if (!socket) return;
+
+        socket.on('questCompleted', () => {
+            fetchAllData();
+        });
+
+        socket.on('levelUp', () => {
+            fetchAllData();
+        });
+
+        return () => {
+            socket.off('questCompleted');
+            socket.off('levelUp');
+        };
+    }, [socket]);
 
     if (loading) {
         return (

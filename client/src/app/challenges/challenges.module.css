@@ -65,6 +65,32 @@
     color: var(--text-muted);
 }
 
+.nav {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: auto;
+    flex-wrap: wrap;
+}
+
+.navLink {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-secondary);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.navLink:hover {
+    color: var(--text-primary);
+    background: rgba(74, 158, 255, 0.1);
+    border-color: var(--border-color);
+}
+
 .main {
     padding: 2rem;
     max-width: 1400px;

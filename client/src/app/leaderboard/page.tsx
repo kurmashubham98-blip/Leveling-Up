@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { leaderboard as leaderboardApi } from '@/lib/api';
 import dynamic from 'next/dynamic';
+import { useWebSocket } from '@/lib/useWebSocket';
 import RankBadge from '@/components/RankBadge';
 import styles from './leaderboard.module.css';
 
@@ -17,15 +18,7 @@ export default function LeaderboardPage() {
     const [activeFilter, setActiveFilter] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            router.push('/login');
-            return;
-        }
-
-        fetchLeaderboard();
-    }, [router, activeFilter]);
+    const socket = useWebSocket();
 
     const fetchLeaderboard = async () => {
         try {
@@ -46,6 +39,26 @@ export default function LeaderboardPage() {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            router.push('/login');
+            return;
+        }
+
+        fetchLeaderboard();
+    }, [router, activeFilter]);
+
+    useEffect(() => {
+        if (!socket) return;
+        socket.on('leaderboardUpdated', fetchLeaderboard);
+        socket.on('levelUp', fetchLeaderboard);
+        return () => {
+            socket.off('leaderboardUpdated', fetchLeaderboard);
+            socket.off('levelUp', fetchLeaderboard);
+        };
+    }, [socket, activeFilter]);
 
     const filteredLeaderboard = searchQuery
         ? leaderboard.filter(p => p.username.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -73,6 +86,13 @@ export default function LeaderboardPage() {
                     <span className={styles.separator}>/</span>
                     <span>Leaderboard</span>
                 </div>
+                <nav className={styles.nav}>
+                    <button className={styles.navLink} onClick={() => router.push('/dashboard')}>Dashboard</button>
+                    <button className={styles.navLink} onClick={() => router.push('/statistics')}>Statistics</button>
+                    <button className={styles.navLink} onClick={() => router.push('/challenges')}>Challenges</button>
+                    <button className={styles.navLink} onClick={() => router.push('/leaderboard')}>Leaderboard</button>
+                    <button className={styles.navLink} onClick={() => router.push('/compare')}>Compare</button>
+                </nav>
             </header>
 
             <main className={styles.main}>
