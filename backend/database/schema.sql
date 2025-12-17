@@ -1,8 +1,10 @@
 -- ARISE - Solo Leveling Habit Tracker Database Schema
 -- Run this script to initialize the database
 
-CREATE DATABASE IF NOT EXISTS arise_db;
-USE arise_db;
+-- USE Leveling; (database already exists in TiDB)
+-- If running locally, uncomment below:
+-- CREATE DATABASE IF NOT EXISTS Leveling;
+-- USE Leveling;
 
 -- Ranks Table (E-Rank to Monarch)
 CREATE TABLE ranks (
