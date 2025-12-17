@@ -28,8 +28,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.5rem;
-  background: var(--bg-secondary);
+  background: rgba(22, 22, 24, 0.8);
+  backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border-color);
+  position: relative;
+  z-index: 10;
 }
 
 .logo {
@@ -70,6 +73,15 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.crystalWrapper {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  overflow: hidden;
 }
 
 .content {
@@ -77,6 +89,8 @@
   flex-direction: column;
   gap: 1.5rem;
   min-width: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .questHeader {

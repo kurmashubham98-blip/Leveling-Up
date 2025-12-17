@@ -4,10 +4,14 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useGameStore } from '@/lib/store';
 import { player as playerApi, quests as questsApi } from '@/lib/api';
+import dynamic from 'next/dynamic';
 import StatusWindow from '@/components/StatusWindow';
 import QuestCard from '@/components/QuestCard';
 import LevelUpModal from '@/components/LevelUpModal';
 import Heatmap from '@/components/Heatmap';
+
+const ParticleBackground = dynamic(() => import('@/components/ParticleBackground'), { ssr: false });
+const Crystal3D = dynamic(() => import('@/components/Crystal3D'), { ssr: false });
 import styles from './dashboard.module.css';
 
 export default function DashboardPage() {
@@ -126,6 +130,8 @@ export default function DashboardPage() {
 
   return (
     <div className={styles.container}>
+      <ParticleBackground />
+      
       {showLevelUp && (
         <LevelUpModal level={newLevel} onClose={() => setShowLevelUp(false)} />
       )}
@@ -139,6 +145,9 @@ export default function DashboardPage() {
 
       <main className={styles.main}>
         <aside className={styles.sidebar}>
+          <div className={styles.crystalWrapper}>
+            <Crystal3D level={player.level} rankColor={player.rank_color || '#4a9eff'} />
+          </div>
           <StatusWindow player={player} onAllocateStat={handleAllocateStat} />
           <Heatmap data={activityData} />
         </aside>
