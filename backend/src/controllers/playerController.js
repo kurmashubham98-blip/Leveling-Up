@@ -26,6 +26,31 @@ exports.getProfile = async (req, res) => {
   }
 };
 
+// Get activity heatmap data
+exports.getActivity = async (req, res) => {
+  try {
+    const [activities] = await pool.query(`
+      SELECT DATE(created_at) as date, COUNT(*) as count
+      FROM activity_log
+      WHERE player_id = ? AND created_at >= DATE_SUB(CURDATE(), INTERVAL 365 DAY)
+      GROUP BY DATE(created_at)
+      ORDER BY date
+    `, [req.player.id]);
+
+    // Convert to object format { '2024-01-15': 3 }
+    const activityMap = {};
+    activities.forEach((row) => {
+      const dateStr = new Date(row.date).toISOString().split('T')[0];
+      activityMap[dateStr] = row.count;
+    });
+
+    res.json({ activity: activityMap });
+  } catch (error) {
+    console.error('Get activity error:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
 // Allocate stat points
 exports.allocateStats = async (req, res) => {
   const { strength, agility, intelligence, vitality, luck } = req.body;
@@ -126,4 +151,3 @@ exports.buyItem = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
-

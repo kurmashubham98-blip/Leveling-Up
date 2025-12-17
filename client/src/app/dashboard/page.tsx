@@ -36,19 +36,17 @@ export default function DashboardPage() {
     fetchPlayer();
     fetchQuests();
     
-    // Generate sample activity data (in real app, fetch from backend)
-    const data: Record<string, number> = {};
-    const today = new Date();
-    for (let i = 0; i < 365; i++) {
-      const date = new Date(today);
-      date.setDate(date.getDate() - i);
-      const dateStr = date.toISOString().split('T')[0];
-      // Random activity for demo
-      if (Math.random() > 0.6) {
-        data[dateStr] = Math.floor(Math.random() * 12) + 1;
+    // Fetch real activity data from backend
+    const fetchActivity = async () => {
+      try {
+        const data = await playerApi.getActivity();
+        setActivityData(data.activity || {});
+      } catch (error) {
+        console.error('Failed to fetch activity:', error);
+        setActivityData({});
       }
-    }
-    setActivityData(data);
+    };
+    fetchActivity();
   }, [fetchPlayer, fetchQuests, router]);
 
   const handleComplete = async (questId: number) => {

@@ -40,6 +40,7 @@ export const auth = {
 // Player
 export const player = {
   getProfile: () => fetchApi('/player/profile'),
+  getActivity: () => fetchApi('/player/activity'),
   allocateStats: (stats: Record<string, number>) =>
     fetchApi('/player/stats', {
       method: 'PUT',
