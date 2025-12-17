@@ -1,101 +1,118 @@
 .card {
   background: var(--bg-card);
-  border: 1px solid var(--border-glow);
-  border-radius: 12px;
-  padding: 1.25rem;
-  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 1rem 1.25rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .card:hover {
-  border-color: var(--accent-blue);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 20px rgba(0, 212, 255, 0.15);
+  background: var(--bg-card-hover);
 }
 
 .card.completed {
-  opacity: 0.6;
-  border-color: var(--accent-green);
+  opacity: 0.5;
+}
+
+.iconWrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.iconStrength { background: rgba(239, 68, 68, 0.15); }
+.iconAgility { background: rgba(34, 197, 94, 0.15); }
+.iconIntelligence { background: rgba(74, 158, 255, 0.15); }
+.iconVitality { background: rgba(245, 166, 35, 0.15); }
+.iconLuck { background: rgba(168, 85, 247, 0.15); }
+.iconDefault { background: rgba(156, 163, 175, 0.15); }
+
+.content {
+  flex: 1;
+  min-width: 0;
 }
 
 .header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.75rem;
-}
-
-.typeTag {
-  font-size: 0.65rem;
-  color: var(--accent-blue);
-  background: rgba(0, 212, 255, 0.1);
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  letter-spacing: 1px;
-}
-
-.difficulty {
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 1px;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 
 .name {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
   color: var(--text-primary);
 }
 
+.tag {
+  font-size: 0.6rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--accent-green);
+  font-weight: 600;
+}
+
 .description {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  margin-bottom: 1rem;
-  line-height: 1.4;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
 }
 
 .progressSection {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-bottom: 1rem;
 }
 
 .progressBar {
   flex: 1;
-  height: 6px;
+  height: 4px;
   background: var(--bg-secondary);
-  border-radius: 3px;
+  border-radius: 2px;
   overflow: hidden;
 }
 
 .progressFill {
   height: 100%;
-  border-radius: 3px;
+  border-radius: 2px;
   transition: width 0.3s ease;
 }
 
 .progressText {
   font-size: 0.75rem;
   color: var(--text-muted);
-  font-weight: 600;
-  min-width: 40px;
-  text-align: right;
+  font-weight: 500;
+}
+
+.rightSection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
 }
 
 .rewards {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  gap: 0.75rem;
+  font-size: 0.75rem;
 }
 
 .xp {
-  font-size: 0.85rem;
   color: var(--accent-purple);
   font-weight: 600;
 }
 
 .gold {
-  font-size: 0.85rem;
   color: var(--accent-gold);
   font-weight: 600;
 }
@@ -106,32 +123,49 @@
 }
 
 .completeBtn {
-  flex: 1;
-  padding: 0.6rem 1rem;
-  font-size: 0.8rem;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.7rem;
+  border-radius: 8px;
+  background: var(--accent-green);
+  border: none;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.completeBtn:hover {
+  opacity: 0.9;
 }
 
 .deleteBtn {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   border-radius: 8px;
   background: var(--bg-secondary);
-  border: 1px solid rgba(255, 71, 87, 0.3);
-  color: var(--accent-red);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  font-size: 0.75rem;
 }
 
 .deleteBtn:hover {
-  background: rgba(255, 71, 87, 0.1);
+  background: rgba(239, 68, 68, 0.1);
   border-color: var(--accent-red);
+  color: var(--accent-red);
 }
 
 .completedBadge {
-  text-align: center;
   color: var(--accent-green);
-  font-weight: 700;
-  letter-spacing: 2px;
-  font-size: 0.9rem;
+  font-weight: 600;
+  font-size: 0.8rem;
 }
 
+.difficulty {
+  display: none;
+}
+
+.typeTag {
+  display: none;
+}

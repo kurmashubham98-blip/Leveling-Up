@@ -13,6 +13,7 @@ interface Quest {
   current_progress: number;
   target_count: number;
   status: string;
+  stat_type?: string;
 }
 
 interface QuestCardProps {
@@ -21,77 +22,75 @@ interface QuestCardProps {
   onDelete: (id: number) => void;
 }
 
+const statIcons: Record<string, { icon: string; class: string }> = {
+  strength: { icon: '💪', class: 'iconStrength' },
+  agility: { icon: '⚡', class: 'iconAgility' },
+  intelligence: { icon: '📚', class: 'iconIntelligence' },
+  vitality: { icon: '💧', class: 'iconVitality' },
+  luck: { icon: '🍀', class: 'iconLuck' },
+};
+
 const difficultyColors: Record<string, string> = {
-  easy: '#00ff88',
-  medium: '#00d4ff',
-  hard: '#ffd700',
-  nightmare: '#ff4757',
+  easy: '#22c55e',
+  medium: '#4a9eff',
+  hard: '#f5a623',
+  nightmare: '#ef4444',
 };
 
 export default function QuestCard({ quest, onComplete, onDelete }: QuestCardProps) {
   const progress = (quest.current_progress / quest.target_count) * 100;
   const isComplete = quest.status === 'completed';
+  const statInfo = statIcons[quest.stat_type || ''] || { icon: '⭐', class: 'iconDefault' };
 
   return (
     <div className={`${styles.card} ${isComplete ? styles.completed : ''}`}>
-      <div className={styles.header}>
-        <div className={styles.typeTag}>{quest.quest_type.toUpperCase()}</div>
-        <div 
-          className={styles.difficulty}
-          style={{ color: difficultyColors[quest.difficulty] }}
-        >
-          {quest.difficulty.toUpperCase()}
+      <div className={`${styles.iconWrapper} ${styles[statInfo.class]}`}>
+        {statInfo.icon}
+      </div>
+
+      <div className={styles.content}>
+        <div className={styles.header}>
+          <h3 className={styles.name}>{quest.custom_name}</h3>
+          <span className={styles.tag}>New</span>
+        </div>
+        
+        <div className={styles.progressSection}>
+          <div className={styles.progressBar}>
+            <div 
+              className={styles.progressFill}
+              style={{ 
+                width: `${progress}%`,
+                background: difficultyColors[quest.difficulty]
+              }}
+            ></div>
+          </div>
         </div>
       </div>
 
-      <h3 className={styles.name}>{quest.custom_name}</h3>
-      {quest.custom_description && (
-        <p className={styles.description}>{quest.custom_description}</p>
-      )}
-
-      <div className={styles.progressSection}>
-        <div className={styles.progressBar}>
-          <div 
-            className={styles.progressFill}
-            style={{ 
-              width: `${progress}%`,
-              background: difficultyColors[quest.difficulty]
-            }}
-          ></div>
+      <div className={styles.rightSection}>
+        <div className={styles.rewards}>
+          <span className={styles.xp}>{quest.current_progress}/{quest.target_count}</span>
         </div>
-        <span className={styles.progressText}>
-          {quest.current_progress}/{quest.target_count}
-        </span>
+
+        {!isComplete ? (
+          <div className={styles.actions}>
+            <button 
+              className={styles.completeBtn}
+              onClick={() => onComplete(quest.id)}
+            >
+              Done
+            </button>
+            <button 
+              className={styles.deleteBtn}
+              onClick={() => onDelete(quest.id)}
+            >
+              ✕
+            </button>
+          </div>
+        ) : (
+          <div className={styles.completedBadge}>✓</div>
+        )}
       </div>
-
-      <div className={styles.rewards}>
-        <span className={styles.xp}>+{quest.xp_reward} XP</span>
-        <span className={styles.gold}>+{quest.gold_reward} 💰</span>
-      </div>
-
-      {!isComplete && (
-        <div className={styles.actions}>
-          <button 
-            className={`btn btn-primary ${styles.completeBtn}`}
-            onClick={() => onComplete(quest.id)}
-          >
-            COMPLETE
-          </button>
-          <button 
-            className={styles.deleteBtn}
-            onClick={() => onDelete(quest.id)}
-          >
-            ✕
-          </button>
-        </div>
-      )}
-
-      {isComplete && (
-        <div className={styles.completedBadge}>
-          ✓ CLEARED
-        </div>
-      )}
     </div>
   );
 }
-

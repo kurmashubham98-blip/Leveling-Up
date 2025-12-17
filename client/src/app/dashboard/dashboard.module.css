@@ -2,6 +2,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: var(--bg-primary);
 }
 
 .loading {
@@ -12,9 +13,8 @@
 }
 
 .loadingText {
-  font-family: 'Orbitron', sans-serif;
-  color: var(--accent-blue);
-  font-size: 1.25rem;
+  color: var(--text-secondary);
+  font-size: 1rem;
   animation: pulse 1.5s ease infinite;
 }
 
@@ -27,51 +27,55 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
   background: var(--bg-secondary);
-  border-bottom: 1px solid var(--border-glow);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .logo {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
-  color: var(--accent-blue);
-  letter-spacing: 4px;
-  text-shadow: 0 0 20px var(--accent-blue);
+  color: var(--text-primary);
+  letter-spacing: 3px;
 }
 
 .logoutBtn {
   background: transparent;
-  border: 1px solid var(--accent-red);
-  color: var(--accent-red);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
   padding: 0.5rem 1rem;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 0.75rem;
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .logoutBtn:hover {
-  background: rgba(255, 71, 87, 0.1);
+  border-color: var(--accent-red);
+  color: var(--accent-red);
 }
 
 .main {
   flex: 1;
   display: grid;
-  grid-template-columns: 380px 1fr;
-  gap: 2rem;
-  padding: 2rem;
+  grid-template-columns: 340px 1fr;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .sidebar {
-  position: sticky;
-  top: 2rem;
-  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   min-width: 0;
 }
 
@@ -79,43 +83,68 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
 }
 
 .sectionTitle {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
+  font-weight: 600;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.15rem;
 }
 
 .systemTag {
-  font-size: 0.65rem;
-  color: var(--accent-blue);
-  letter-spacing: 2px;
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  letter-spacing: 1.5px;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.tab {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.tab:hover {
+  color: var(--text-secondary);
+}
+
+.tabActive {
+  background: var(--bg-card);
+  color: var(--text-primary);
 }
 
 .emptyState {
   background: var(--bg-card);
-  border: 1px dashed var(--border-glow);
-  border-radius: 12px;
+  border: 1px dashed var(--border-color);
+  border-radius: 16px;
   padding: 3rem;
   text-align: center;
   color: var(--text-secondary);
 }
 
-.questGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1rem;
+.questList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 /* Modal */
 .modalOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -125,22 +154,20 @@
 
 .modal {
   background: var(--bg-card);
-  border: 1px solid var(--border-glow);
-  border-radius: 16px;
-  padding: 2rem;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 1.5rem;
   width: 100%;
-  max-width: 500px;
+  max-width: 440px;
   max-height: 90vh;
   overflow-y: auto;
 }
 
 .modalTitle {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.25rem;
-  color: var(--accent-blue);
+  font-size: 1.1rem;
+  font-weight: 600;
   text-align: center;
-  margin-bottom: 1.5rem;
-  letter-spacing: 2px;
+  margin-bottom: 1.25rem;
 }
 
 .questForm {
@@ -152,12 +179,12 @@
 .formGroup {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 
 .formGroup label {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
+  font-size: 0.7rem;
+  color: var(--text-muted);
   letter-spacing: 1px;
   text-transform: uppercase;
 }
@@ -179,12 +206,18 @@
 
 .formActions {
   display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
 }
 
 .formActions button {
   flex: 1;
+  padding: 0.75rem;
+}
+
+.addBtn {
+  padding: 0.6rem 1rem;
+  font-size: 0.8rem;
 }
 
 @media (max-width: 900px) {
@@ -193,7 +226,10 @@
   }
   
   .sidebar {
-    position: static;
+    order: 2;
+  }
+  
+  .content {
+    order: 1;
   }
 }
-

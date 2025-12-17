@@ -7,6 +7,7 @@ import { player as playerApi, quests as questsApi } from '@/lib/api';
 import StatusWindow from '@/components/StatusWindow';
 import QuestCard from '@/components/QuestCard';
 import LevelUpModal from '@/components/LevelUpModal';
+import Heatmap from '@/components/Heatmap';
 import styles from './dashboard.module.css';
 
 export default function DashboardPage() {
@@ -15,6 +16,8 @@ export default function DashboardPage() {
   const [showLevelUp, setShowLevelUp] = useState(false);
   const [newLevel, setNewLevel] = useState(0);
   const [showNewQuest, setShowNewQuest] = useState(false);
+  const [activeTab, setActiveTab] = useState('all');
+  const [activityData, setActivityData] = useState<Record<string, number>>({});
   const [questForm, setQuestForm] = useState({
     name: '',
     description: '',
@@ -32,11 +35,33 @@ export default function DashboardPage() {
     }
     fetchPlayer();
     fetchQuests();
+    
+    // Generate sample activity data (in real app, fetch from backend)
+    const data: Record<string, number> = {};
+    const today = new Date();
+    for (let i = 0; i < 365; i++) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+      const dateStr = date.toISOString().split('T')[0];
+      // Random activity for demo
+      if (Math.random() > 0.6) {
+        data[dateStr] = Math.floor(Math.random() * 12) + 1;
+      }
+    }
+    setActivityData(data);
   }, [fetchPlayer, fetchQuests, router]);
 
   const handleComplete = async (questId: number) => {
     try {
       const result = await completeQuest(questId);
+      
+      // Update activity data
+      const today = new Date().toISOString().split('T')[0];
+      setActivityData(prev => ({
+        ...prev,
+        [today]: (prev[today] || 0) + 1
+      }));
+      
       if (result.levelUp) {
         setNewLevel(result.newLevel);
         setShowLevelUp(true);
@@ -91,12 +116,15 @@ export default function DashboardPage() {
   if (!player) {
     return (
       <div className={styles.loading}>
-        <div className={styles.loadingText}>Loading System...</div>
+        <div className={styles.loadingText}>Loading...</div>
       </div>
     );
   }
 
   const activeQuests = quests.filter(q => q.status === 'active');
+  const filteredQuests = activeTab === 'all' 
+    ? activeQuests 
+    : activeQuests.filter(q => q.quest_type === activeTab);
 
   return (
     <div className={styles.container}>
@@ -107,36 +135,58 @@ export default function DashboardPage() {
       <header className={styles.header}>
         <div className={styles.logo}>ARISE</div>
         <button className={styles.logoutBtn} onClick={handleLogout}>
-          LOGOUT
+          Logout
         </button>
       </header>
 
       <main className={styles.main}>
         <aside className={styles.sidebar}>
           <StatusWindow player={player} onAllocateStat={handleAllocateStat} />
+          <Heatmap data={activityData} />
         </aside>
 
         <section className={styles.content}>
           <div className={styles.questHeader}>
             <h2 className={styles.sectionTitle}>
-              <span className={styles.systemTag}>[ QUEST LOG ]</span>
-              ACTIVE QUESTS
+              <span className={styles.systemTag}>TODAY</span>
+              Quests
             </h2>
             <button 
-              className="btn btn-primary"
+              className={`btn btn-primary ${styles.addBtn}`}
               onClick={() => setShowNewQuest(true)}
             >
-              + NEW QUEST
+              + Add Quest
             </button>
           </div>
 
-          {activeQuests.length === 0 ? (
+          <div className={styles.tabs}>
+            <button 
+              className={`${styles.tab} ${activeTab === 'all' ? styles.tabActive : ''}`}
+              onClick={() => setActiveTab('all')}
+            >
+              All
+            </button>
+            <button 
+              className={`${styles.tab} ${activeTab === 'daily' ? styles.tabActive : ''}`}
+              onClick={() => setActiveTab('daily')}
+            >
+              Daily
+            </button>
+            <button 
+              className={`${styles.tab} ${activeTab === 'weekly' ? styles.tabActive : ''}`}
+              onClick={() => setActiveTab('weekly')}
+            >
+              Weekly
+            </button>
+          </div>
+
+          {filteredQuests.length === 0 ? (
             <div className={styles.emptyState}>
-              <p>No active quests. Create one to begin your journey!</p>
+              <p>No quests yet. Add one to start leveling up!</p>
             </div>
           ) : (
-            <div className={styles.questGrid}>
-              {activeQuests.map((quest) => (
+            <div className={styles.questList}>
+              {filteredQuests.map((quest) => (
                 <QuestCard
                   key={quest.id}
                   quest={quest}
@@ -152,7 +202,7 @@ export default function DashboardPage() {
       {showNewQuest && (
         <div className={styles.modalOverlay} onClick={() => setShowNewQuest(false)}>
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-            <h3 className={styles.modalTitle}>CREATE NEW QUEST</h3>
+            <h3 className={styles.modalTitle}>New Quest</h3>
             <form onSubmit={handleCreateQuest} className={styles.questForm}>
               <div className={styles.formGroup}>
                 <label>Quest Name</label>
@@ -161,15 +211,17 @@ export default function DashboardPage() {
                   className="input"
                   value={questForm.name}
                   onChange={(e) => setQuestForm({ ...questForm, name: e.target.value })}
+                  placeholder="e.g., Drink 8 glasses of water"
                   required
                 />
               </div>
               <div className={styles.formGroup}>
-                <label>Description</label>
+                <label>Description (optional)</label>
                 <textarea
                   className="input"
                   value={questForm.description}
                   onChange={(e) => setQuestForm({ ...questForm, description: e.target.value })}
+                  placeholder="Add details..."
                   rows={2}
                 />
               </div>
@@ -183,7 +235,7 @@ export default function DashboardPage() {
                   >
                     <option value="daily">Daily</option>
                     <option value="weekly">Weekly</option>
-                    <option value="side">Side</option>
+                    <option value="side">One-time</option>
                   </select>
                 </div>
                 <div className={styles.formGroup}>
@@ -202,7 +254,7 @@ export default function DashboardPage() {
               </div>
               <div className={styles.formRow}>
                 <div className={styles.formGroup}>
-                  <label>Target Count</label>
+                  <label>Target</label>
                   <input
                     type="number"
                     className="input"
@@ -212,18 +264,18 @@ export default function DashboardPage() {
                   />
                 </div>
                 <div className={styles.formGroup}>
-                  <label>Stat Bonus</label>
+                  <label>Category</label>
                   <select
                     className="input"
                     value={questForm.statType}
                     onChange={(e) => setQuestForm({ ...questForm, statType: e.target.value })}
                   >
-                    <option value="">None</option>
-                    <option value="strength">Strength</option>
-                    <option value="agility">Agility</option>
-                    <option value="intelligence">Intelligence</option>
-                    <option value="vitality">Vitality</option>
-                    <option value="luck">Luck</option>
+                    <option value="">General</option>
+                    <option value="strength">Fitness</option>
+                    <option value="agility">Cardio</option>
+                    <option value="intelligence">Learning</option>
+                    <option value="vitality">Health</option>
+                    <option value="luck">Misc</option>
                   </select>
                 </div>
               </div>
@@ -232,7 +284,7 @@ export default function DashboardPage() {
                   Cancel
                 </button>
                 <button type="submit" className="btn btn-primary">
-                  Create Quest
+                  Create
                 </button>
               </div>
             </form>
@@ -242,4 +294,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-

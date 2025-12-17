@@ -1,89 +1,56 @@
 .statusWindow {
-  background: linear-gradient(180deg, rgba(26, 26, 37, 0.95) 0%, rgba(18, 18, 26, 0.98) 100%);
-  border: 1px solid var(--border-glow);
-  border-radius: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
   padding: 1.5rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.statusWindow::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--accent-blue), var(--accent-purple), transparent);
-}
-
-.statusWindow::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    linear-gradient(rgba(0, 212, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 212, 255, 0.02) 1px, transparent 1px);
-  background-size: 20px 20px;
-  pointer-events: none;
 }
 
 .header {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .systemTag {
-  font-size: 0.65rem;
-  color: var(--accent-blue);
-  letter-spacing: 3px;
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  letter-spacing: 2px;
   margin-bottom: 0.25rem;
 }
 
 .title {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.25rem;
+  font-size: 1rem;
   color: var(--text-primary);
-  letter-spacing: 4px;
+  font-weight: 600;
+  letter-spacing: 2px;
 }
 
 .playerInfo {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .avatar {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
   background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
 }
 
 .avatarGlow {
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-  opacity: 0.3;
-  filter: blur(8px);
+  display: none;
 }
 
 .avatarText {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: white;
-  position: relative;
-  z-index: 1;
 }
 
 .nameSection {
@@ -91,23 +58,23 @@
 }
 
 .playerName {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 0.25rem;
 }
 
 .rank {
   display: inline-block;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   font-weight: 700;
-  padding: 0.25rem 0.75rem;
-  border: 1px solid;
+  padding: 0.2rem 0.5rem;
   border-radius: 4px;
-  letter-spacing: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  letter-spacing: 1px;
 }
 
 .levelSection {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .levelHeader {
@@ -118,37 +85,34 @@
 }
 
 .levelLabel {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: var(--text-muted);
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
 .levelValue {
-  font-family: 'Orbitron', sans-serif;
   font-size: 1.5rem;
+  font-weight: 700;
   color: var(--accent-gold);
-  text-shadow: 0 0 10px var(--accent-gold);
 }
 
 .xpBar {
-  height: 10px;
+  height: 8px;
   background: var(--bg-secondary);
-  border-radius: 5px;
+  border-radius: 4px;
   overflow: hidden;
-  border: 1px solid rgba(0, 212, 255, 0.2);
 }
 
 .xpFill {
   height: 100%;
-  background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
-  border-radius: 5px;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+  border-radius: 4px;
   transition: width 0.5s ease;
-  box-shadow: 0 0 10px var(--accent-blue);
 }
 
 .xpText {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
+  font-size: 0.7rem;
+  color: var(--text-muted);
   text-align: right;
   margin-top: 0.25rem;
 }
@@ -162,37 +126,37 @@
 
 .statItem {
   background: var(--bg-secondary);
-  border-radius: 8px;
-  padding: 0.75rem 0.5rem;
+  border-radius: 10px;
+  padding: 0.6rem 0.4rem;
   text-align: center;
   position: relative;
 }
 
 .statLabel {
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-weight: 700;
-  letter-spacing: 1px;
-  margin-bottom: 0.25rem;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.2rem;
 }
 
 .statValue {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
+  font-weight: 700;
   color: var(--text-primary);
 }
 
 .statBtn {
   position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
+  top: 3px;
+  right: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
   background: var(--accent-green);
   border: none;
   color: black;
   font-weight: 700;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -201,13 +165,12 @@
 
 .statBtn:hover {
   transform: scale(1.1);
-  box-shadow: 0 0 10px var(--accent-green);
 }
 
 .statPoints {
-  background: rgba(0, 255, 136, 0.1);
+  background: rgba(34, 197, 94, 0.1);
   border: 1px solid var(--accent-green);
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 0.5rem 1rem;
   display: flex;
   justify-content: space-between;
@@ -216,11 +179,10 @@
 
 .pointsLabel {
   color: var(--accent-green);
-  font-size: 0.875rem;
+  font-size: 0.8rem;
 }
 
 .pointsValue {
-  font-family: 'Orbitron', sans-serif;
   color: var(--accent-green);
   font-weight: 700;
 }
@@ -229,7 +191,7 @@
   display: flex;
   justify-content: space-around;
   padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--border-color);
 }
 
 .resource {
@@ -239,7 +201,7 @@
 }
 
 .goldIcon, .streakIcon {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
 }
 
 .goldValue {
@@ -251,4 +213,3 @@
   color: var(--accent-red);
   font-weight: 600;
 }
-
