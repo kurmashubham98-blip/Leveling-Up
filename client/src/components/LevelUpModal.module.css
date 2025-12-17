@@ -1,0 +1,101 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.overlay.visible {
+  opacity: 1;
+}
+
+.modal {
+  position: relative;
+  text-align: center;
+  animation: scaleIn 0.5s ease;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, var(--accent-blue) 0%, transparent 70%);
+  opacity: 0.5;
+  animation: pulse 1.5s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+.systemTag {
+  font-size: 0.75rem;
+  color: var(--accent-blue);
+  letter-spacing: 3px;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3rem;
+  color: var(--accent-gold);
+  text-shadow: 0 0 30px var(--accent-gold), 0 0 60px var(--accent-gold);
+  letter-spacing: 8px;
+  margin-bottom: 1.5rem;
+  animation: glow 1s ease infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 30px var(--accent-gold), 0 0 60px var(--accent-gold); }
+  to { text-shadow: 0 0 50px var(--accent-gold), 0 0 100px var(--accent-gold); }
+}
+
+.levelDisplay {
+  margin-bottom: 1.5rem;
+}
+
+.levelNumber {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 6rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 0 40px var(--accent-blue);
+}
+
+.message {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.bonus {
+  font-size: 1rem;
+  color: var(--accent-green);
+  font-weight: 600;
+}
+

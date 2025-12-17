@@ -1,0 +1,137 @@
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: 12px;
+  padding: 1.25rem;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  border-color: var(--accent-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(0, 212, 255, 0.15);
+}
+
+.card.completed {
+  opacity: 0.6;
+  border-color: var(--accent-green);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.typeTag {
+  font-size: 0.65rem;
+  color: var(--accent-blue);
+  background: rgba(0, 212, 255, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+
+.difficulty {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.description {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.progressSection {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.progressBar {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-secondary);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.progressText {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  min-width: 40px;
+  text-align: right;
+}
+
+.rewards {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.xp {
+  font-size: 0.85rem;
+  color: var(--accent-purple);
+  font-weight: 600;
+}
+
+.gold {
+  font-size: 0.85rem;
+  color: var(--accent-gold);
+  font-weight: 600;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.completeBtn {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  font-size: 0.8rem;
+}
+
+.deleteBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--bg-secondary);
+  border: 1px solid rgba(255, 71, 87, 0.3);
+  color: var(--accent-red);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.deleteBtn:hover {
+  background: rgba(255, 71, 87, 0.1);
+  border-color: var(--accent-red);
+}
+
+.completedBadge {
+  text-align: center;
+  color: var(--accent-green);
+  font-weight: 700;
+  letter-spacing: 2px;
+  font-size: 0.9rem;
+}
+

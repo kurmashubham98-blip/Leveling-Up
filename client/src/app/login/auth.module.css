@@ -1,0 +1,130 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.systemOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.gridLines {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+.authCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: 16px;
+  padding: 3rem;
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  box-shadow: 
+    0 0 40px rgba(0, 212, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.authCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent-blue), var(--accent-purple), transparent);
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.logoText {
+  display: block;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--accent-blue);
+  text-shadow: 0 0 30px var(--accent-blue);
+  letter-spacing: 8px;
+}
+
+.subtitle {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 4px;
+  margin-top: 0.5rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: 0.75rem;
+  color: var(--accent-blue);
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
+.error {
+  background: rgba(255, 71, 87, 0.1);
+  border: 1px solid var(--accent-red);
+  color: var(--accent-red);
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.submitBtn {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 1rem;
+  font-size: 1rem;
+}
+
+.submitBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.footer {
+  margin-top: 2rem;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.link {
+  color: var(--accent-blue);
+  text-decoration: none;
+  margin-left: 0.5rem;
+  font-weight: 600;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
