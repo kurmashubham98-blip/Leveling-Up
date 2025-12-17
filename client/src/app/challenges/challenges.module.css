@@ -1,0 +1,257 @@
+.container {
+    min-height: 100vh;
+    background: var(--bg-primary);
+    position: relative;
+}
+
+.loading {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loadingText {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    animation: pulse 1.5s ease infinite;
+}
+
+.header {
+    padding: 1.5rem;
+    background: rgba(22, 22, 24, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.backBtn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.backBtn:hover {
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.systemTag {
+    font-size: 0.7rem;
+    color: var(--accent-cyan);
+    letter-spacing: 2px;
+    font-weight: 600;
+}
+
+.separator {
+    color: var(--text-muted);
+}
+
+.main {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.intro {
+    margin-bottom: 2rem;
+}
+
+.title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem 0;
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 700px;
+}
+
+.tabs {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.tab {
+    padding: 0.75rem 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+.tab:hover {
+    color: var(--text-primary);
+    border-color: var(--border-light);
+}
+
+.tabActive {
+    background: linear-gradient(135deg, #4a9eff 0%, #5ce1e6 100%);
+    color: white;
+    border-color: transparent;
+}
+
+.tabActive:hover {
+    color: white;
+}
+
+.challengeGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.25rem;
+}
+
+.emptyState {
+    background: var(--bg-card);
+    border: 1px dashed var(--border-color);
+    border-radius: 20px;
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.emptyIcon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.emptyText {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin: 0;
+}
+
+/* Modal/Leaderboard */
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 1rem;
+}
+
+.modal {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modalTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 1.5rem 0;
+    text-align: center;
+}
+
+.leaderboardList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.leaderboardItem {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+.leaderboardItem:hover {
+    background: var(--bg-card-hover);
+}
+
+.rank {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    font-family: 'Orbitron', sans-serif;
+    min-width: 40px;
+}
+
+.playerInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.username {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.level {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.progress {
+    font-size: 0.9rem;
+    color: var(--accent-cyan);
+    font-weight: 600;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.completed {
+    font-size: 1.25rem;
+}
+
+@media (max-width: 768px) {
+    .challengeGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .tabs {
+        flex-direction: column;
+    }
+
+    .tab {
+        width: 100%;
+        text-align: center;
+    }
+}

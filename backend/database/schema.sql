@@ -185,3 +185,62 @@ INSERT INTO dungeons (name, description, difficulty, time_limit_minutes, xp_rewa
   ('Demon Castle', 'Complete a full workout routine', 'hard', 60, 200, 100, 10),
   ('Double Dungeon', 'No phone/social media for 4 hours', 'nightmare', 240, 500, 250, 25);
 
+-- Challenges Table (for Statistics & Challenges feature)
+CREATE TABLE challenges (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(100) NOT NULL,
+  description TEXT,
+  challenge_type ENUM('individual', 'group', 'competitive') DEFAULT 'individual',
+  difficulty ENUM('easy', 'medium', 'hard', 'nightmare') DEFAULT 'medium',
+  duration_days INT DEFAULT 7,
+  max_participants INT DEFAULT 100,
+  xp_reward INT DEFAULT 200,
+  gold_reward INT DEFAULT 100,
+  target_count INT DEFAULT 1,
+  target_type VARCHAR(50) DEFAULT 'quests',
+  start_date DATE,
+  end_date DATE,
+  status ENUM('upcoming', 'active', 'completed') DEFAULT 'upcoming',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Challenge Participants (tracks who joined challenges)
+CREATE TABLE challenge_participants (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  challenge_id INT NOT NULL,
+  player_id INT NOT NULL,
+  current_progress INT DEFAULT 0,
+  status ENUM('active', 'completed', 'failed') DEFAULT 'active',
+  joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  completed_at TIMESTAMP NULL,
+  rank_position INT DEFAULT 0,
+  FOREIGN KEY (challenge_id) REFERENCES challenges(id) ON DELETE CASCADE,
+  FOREIGN KEY (player_id) REFERENCES players(id) ON DELETE CASCADE,
+  UNIQUE KEY unique_participant (challenge_id, player_id)
+);
+
+-- Player Statistics (pre-aggregated for performance)
+CREATE TABLE player_statistics (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  player_id INT UNIQUE NOT NULL,
+  total_quests_completed INT DEFAULT 0,
+  total_xp_earned INT DEFAULT 0,
+  total_gold_earned INT DEFAULT 0,
+  total_dungeons_completed INT DEFAULT 0,
+  total_challenges_completed INT DEFAULT 0,
+  longest_streak INT DEFAULT 0,
+  current_month_quests INT DEFAULT 0,
+  current_week_quests INT DEFAULT 0,
+  average_daily_quests DECIMAL(4,2) DEFAULT 0.00,
+  productivity_percentage DECIMAL(5,2) DEFAULT 0.00,
+  last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (player_id) REFERENCES players(id) ON DELETE CASCADE
+);
+
+-- Sample Challenges
+INSERT INTO challenges (name, description, challenge_type, difficulty, duration_days, max_participants, xp_reward, gold_reward, target_count, target_type, status) VALUES
+  ('Cut the Clutter Challenge', 'Organize your workspace daily for 7 days', 'individual', 'easy', 7, 50, 150, 75, 7, 'habit_days', 'active'),
+  ('Happy Morning Challenge', 'Wake up before 7 AM for 5 days', 'individual', 'medium', 7, 100, 200, 100, 5, 'early_wake', 'active'),
+  ('Social Media Detox Challenge', 'Limit social media to 30 min/day for a week', 'group', 'hard', 7, 75, 300, 150, 7, 'detox_days', 'active'),
+  ('No Alcohol Challenge', 'Stay alcohol-free for 30 days', 'competitive', 'nightmare', 30, 200, 1000, 500, 30, 'sober_days', 'upcoming');
+

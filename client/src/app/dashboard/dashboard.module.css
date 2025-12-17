@@ -19,8 +19,15 @@
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
 }
 
 .header {
@@ -40,6 +47,31 @@
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: 3px;
+}
+
+.nav {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.navLink {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.navLink:hover {
+  color: var(--text-primary);
+  background: rgba(74, 158, 255, 0.1);
+  border-color: var(--border-color);
 }
 
 .logoutBtn {
@@ -238,11 +270,11 @@
   .main {
     grid-template-columns: 1fr;
   }
-  
+
   .sidebar {
     order: 2;
   }
-  
+
   .content {
     order: 1;
   }

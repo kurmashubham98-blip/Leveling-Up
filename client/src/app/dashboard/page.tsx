@@ -39,7 +39,7 @@ export default function DashboardPage() {
     }
     fetchPlayer();
     fetchQuests();
-    
+
     // Fetch real activity data from backend
     const fetchActivity = async () => {
       try {
@@ -56,14 +56,14 @@ export default function DashboardPage() {
   const handleComplete = async (questId: number) => {
     try {
       const result = await completeQuest(questId);
-      
+
       // Update activity data
       const today = new Date().toISOString().split('T')[0];
       setActivityData(prev => ({
         ...prev,
         [today]: (prev[today] || 0) + 1
       }));
-      
+
       if (result.levelUp) {
         setNewLevel(result.newLevel);
         setShowLevelUp(true);
@@ -124,20 +124,31 @@ export default function DashboardPage() {
   }
 
   const activeQuests = quests.filter(q => q.status === 'active');
-  const filteredQuests = activeTab === 'all' 
-    ? activeQuests 
+  const filteredQuests = activeTab === 'all'
+    ? activeQuests
     : activeQuests.filter(q => q.quest_type === activeTab);
 
   return (
     <div className={styles.container}>
       <ParticleBackground />
-      
+
       {showLevelUp && (
         <LevelUpModal level={newLevel} onClose={() => setShowLevelUp(false)} />
       )}
 
       <header className={styles.header}>
         <div className={styles.logo}>ARISE</div>
+        <nav className={styles.nav}>
+          <button className={styles.navLink} onClick={() => router.push('/dashboard')}>
+            Dashboard
+          </button>
+          <button className={styles.navLink} onClick={() => router.push('/statistics')}>
+            Statistics
+          </button>
+          <button className={styles.navLink} onClick={() => router.push('/challenges')}>
+            Challenges
+          </button>
+        </nav>
         <button className={styles.logoutBtn} onClick={handleLogout}>
           Logout
         </button>
@@ -158,7 +169,7 @@ export default function DashboardPage() {
               <span className={styles.systemTag}>TODAY</span>
               Quests
             </h2>
-            <button 
+            <button
               className={`btn btn-primary ${styles.addBtn}`}
               onClick={() => setShowNewQuest(true)}
             >
@@ -167,19 +178,19 @@ export default function DashboardPage() {
           </div>
 
           <div className={styles.tabs}>
-            <button 
+            <button
               className={`${styles.tab} ${activeTab === 'all' ? styles.tabActive : ''}`}
               onClick={() => setActiveTab('all')}
             >
               All
             </button>
-            <button 
+            <button
               className={`${styles.tab} ${activeTab === 'daily' ? styles.tabActive : ''}`}
               onClick={() => setActiveTab('daily')}
             >
               Daily
             </button>
-            <button 
+            <button
               className={`${styles.tab} ${activeTab === 'weekly' ? styles.tabActive : ''}`}
               onClick={() => setActiveTab('weekly')}
             >

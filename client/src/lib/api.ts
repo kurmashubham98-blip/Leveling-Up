@@ -2,7 +2,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
 async function fetchApi(endpoint: string, options: RequestInit = {}) {
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-  
+
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
     ...(token && { Authorization: `Bearer ${token}` }),
@@ -85,5 +85,30 @@ export const dungeons = {
   start: (dungeonId: number) =>
     fetchApi(`/dungeons/${dungeonId}/start`, { method: 'POST' }),
   complete: () => fetchApi('/dungeons/complete', { method: 'POST' }),
+};
+
+// Statistics
+export const statistics = {
+  getOverview: () => fetchApi('/statistics'),
+  getProductivity: (period?: number) =>
+    fetchApi(`/statistics/productivity${period ? `?period=${period}` : ''}`),
+  getHabits: () => fetchApi('/statistics/habits'),
+  getStreaks: () => fetchApi('/statistics/streaks'),
+};
+
+// Challenges
+export const challenges = {
+  getAvailable: () => fetchApi('/challenges'),
+  getActive: () => fetchApi('/challenges/active'),
+  getCompleted: () => fetchApi('/challenges/completed'),
+  join: (challengeId: number) =>
+    fetchApi(`/challenges/${challengeId}/join`, { method: 'POST' }),
+  updateProgress: (challengeId: number, progress: number) =>
+    fetchApi(`/challenges/${challengeId}/progress`, {
+      method: 'PUT',
+      body: JSON.stringify({ progress }),
+    }),
+  getLeaderboard: (challengeId: number) =>
+    fetchApi(`/challenges/${challengeId}/leaderboard`),
 };
 

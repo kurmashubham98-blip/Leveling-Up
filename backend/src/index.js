@@ -6,6 +6,8 @@ const authRoutes = require('./routes/auth');
 const playerRoutes = require('./routes/player');
 const questRoutes = require('./routes/quest');
 const dungeonRoutes = require('./routes/dungeon');
+const statisticsRoutes = require('./routes/statistics');
+const challengeRoutes = require('./routes/challenge');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -22,6 +24,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/player', playerRoutes);
 app.use('/api/quests', questRoutes);
 app.use('/api/dungeons', dungeonRoutes);
+app.use('/api/statistics', statisticsRoutes);
+app.use('/api/challenges', challengeRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
