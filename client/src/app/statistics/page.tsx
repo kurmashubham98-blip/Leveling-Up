@@ -89,6 +89,13 @@ export default function StatisticsPage() {
                     <span className={styles.separator}>/</span>
                     <span>Statistics</span>
                 </div>
+                <nav className={styles.nav}>
+                    <button className={styles.navLink} onClick={() => router.push('/dashboard')}>Dashboard</button>
+                    <button className={styles.navLink} onClick={() => router.push('/statistics')}>Statistics</button>
+                    <button className={styles.navLink} onClick={() => router.push('/challenges')}>Challenges</button>
+                    <button className={styles.navLink} onClick={() => router.push('/leaderboard')}>Leaderboard</button>
+                    <button className={styles.navLink} onClick={() => router.push('/compare')}>Compare</button>
+                </nav>
             </header>
 
             <main className={styles.main}>
