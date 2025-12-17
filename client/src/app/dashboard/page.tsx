@@ -148,6 +148,12 @@ export default function DashboardPage() {
           <button className={styles.navLink} onClick={() => router.push('/challenges')}>
             Challenges
           </button>
+          <button className={styles.navLink} onClick={() => router.push('/leaderboard')}>
+            Leaderboard
+          </button>
+          <button className={styles.navLink} onClick={() => router.push('/compare')}>
+            Compare
+          </button>
         </nav>
         <button className={styles.logoutBtn} onClick={handleLogout}>
           Logout

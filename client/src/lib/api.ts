@@ -112,3 +112,18 @@ export const challenges = {
     fetchApi(`/challenges/${challengeId}/leaderboard`),
 };
 
+// Leaderboard API
+export const leaderboard = {
+  getGlobal: (page = 1, limit = 100) =>
+    fetchApi(`/leaderboard?page=${page}&limit=${limit}`),
+  getMyRank: () => fetchApi('/leaderboard/me'),
+  getByRank: (rankName: string) => fetchApi(`/leaderboard/rank/${rankName}`),
+};
+
+// Comparison API
+export const comparison = {
+  compareWith: (playerId: number) => fetchApi(`/comparison/${playerId}`),
+  searchPlayers: (query: string) => fetchApi(`/comparison/search?q=${query}`),
+  getSuggestions: () => fetchApi('/comparison/suggestions'),
+};
+

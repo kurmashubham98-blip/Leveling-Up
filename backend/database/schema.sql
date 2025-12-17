@@ -244,3 +244,28 @@ INSERT INTO challenges (name, description, challenge_type, difficulty, duration_
   ('Social Media Detox Challenge', 'Limit social media to 30 min/day for a week', 'group', 'hard', 7, 75, 300, 150, 7, 'detox_days', 'active'),
   ('No Alcohol Challenge', 'Stay alcohol-free for 30 days', 'competitive', 'nightmare', 30, 200, 1000, 500, 30, 'sober_days', 'upcoming');
 
+-- Leaderboard Cache (for Multiplayer features)
+CREATE TABLE leaderboard_cache (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  player_id INT UNIQUE NOT NULL,
+  rank_position INT,
+  level INT,
+  total_xp INT,
+  total_quests INT,
+  current_streak INT,
+  rank_name VARCHAR(50),
+  rank_color VARCHAR(20),
+  username VARCHAR(50),
+  last_active TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (player_id) REFERENCES players(id) ON DELETE CASCADE,
+  INDEX idx_rank_position (rank_position),
+  INDEX idx_level (level DESC),
+  INDEX idx_total_xp (total_xp DESC)
+);
+
+-- Add visibility to player_quests (for future 'everyone's quest' feature)
+-- This prepares the architecture but doesn't expose the feature yet
+ALTER TABLE player_quests 
+ADD COLUMN visibility ENUM('private', 'friends', 'public') DEFAULT 'private' AFTER status;
+
